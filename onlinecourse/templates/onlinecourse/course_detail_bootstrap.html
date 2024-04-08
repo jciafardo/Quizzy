@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Online Courses</title>
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            max-width: 600px;
+        }
+
+        .btn-start-exam {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-start-exam:hover {
+            background-color: #0056b3;
+        }
+
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+        }
+
+        .form-check-label {
+            font-weight: 500;
+        }
+
+        .btn-submit {
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-submit:hover {
+            background-color: #218838;
+        }
+
+        h1 {
+            color: #dc3545;
+        }
+
+        .btn-login {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-login:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container mt-4">
+        {% if user.is_authenticated %}
+        <div class="text-center">
+            <button class="btn btn-start-exam btn-block mb-3" data-toggle="collapse" data-target="#exam">Start Exam</button>
+        </div>
+        <div id="exam" class="collapse">
+            <form id="questionform" action="{% url 'onlinecourse:submit' course.id %}" method="POST">
+                {% for question in course.question_set.all %}
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <h5>{{ question.content }}</h5>
+                    </div>
+                    {% csrf_token %}
+                    <div class="form-group p-3">
+                        {% for choice in question.choice_set.all %}
+                        <div class="form-check mb-2">
+                            <label class="form-check-label">
+                                <input type="radio" name="question_{{question.id}}" class="form-check-input"
+                                    id="{{choice.id}}" value="{{choice.id}}">{{ choice.content }}
+                            </label>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endfor %}
+                <button class="btn btn-submit btn-block mt-3" type="submit">Submit</button>
+            </form>
+        </div>
+        {% else %}
+        <h1 class="text-center mt-5">
+            User must log in to take the quiz!
+        </h1>
+        <a href="/onlinecourse/login" class="btn btn-login btn-block mt-3">Login Here</a>
+        {% endif %}
+    </div>
+</body>
+
+</html>
