@@ -3,11 +3,28 @@
 <head>
     {% load static %}
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="icon" type="image/x-icon" href="/static/media/course_images/question.png">
+
     <style>
+        .card {
+            margin-bottom: 20px; /* Add some bottom margin to separate cards */
+        }
         .card:hover {
             transform: translateY(-5px);
             transition: transform 0.3s;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+        .align-middle {
+            display: flex;
+            align-items: center;
+            min-height: 100%; /* Ensure the container fills the height */
+        }
+        .card-img-top {
+            max-height: 200px; /* Adjust the maximum height of the image */
+            width: auto; /* Allow the width to adjust automatically based on the height */
+        }
+        .container {
+            margin-top: 20px; /* Add some top margin to create space between navigation bar and cards */
         }
     </style>
     <meta charset="UTF-8">
@@ -46,11 +63,11 @@
     <!-- Page content -->
     {% if course_list %}
         <div class="container">
-            <div class="row">
+            <div class="row align-middle">
                 {% for course in course_list %}
-                    <div class="col-md-4 mb-4">
-                        <div class="card shadow" style="width: 18rem;">
-                            <img class="card-img-left" src="/static/{{MEDIA_URL}}/{{ course.image }}" width="240px" height="240px" alt="Course image">
+                    <div class="col-md-4 mb-4 d-flex">
+                        <div class="card shadow">
+                            <img class="card-img-top" src="/static/{{MEDIA_URL}}/{{ course.image }}" alt="Course image">
                             <div class="card-body bg-light">
                                 <h5 class="card-title">
                                     {{ course.name }},
@@ -64,11 +81,6 @@
                             </div>
                         </div>
                     </div>
-
-                    {% if forloop.counter|divisibleby:3 and not forloop.last %}
-                        </div>
-                        <div class="row">
-                    {% endif %}
                 {% endfor %}
             </div>
         </div>
@@ -77,4 +89,3 @@
     {% endif %}
 </body>
 </html>
-
