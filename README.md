@@ -1,6 +1,10 @@
+**How To Use**
+
+- Click on website link and take your favorite quiz it's that simple !
+- https://jciafardo.pythonanywhere.com/onlinecourse/
+
 
 **General Notes**
-
 
 - To develop the project locally, set up your preferred Python runtime and IDE.
 - Refer here for Django deployment checklist: https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
